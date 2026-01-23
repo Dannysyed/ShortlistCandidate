@@ -6,18 +6,31 @@ import { useState } from "react";
 export default function FileUpload({ onData }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [currentCandidates, setCurrentCandidates] = useState([]);
 
   const handleFile = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
+    // Validate file type
+    if (!file.name.toLowerCase().endsWith(".csv")) {
+      setError("Please upload a CSV file");
+      return;
+    }
+
     setLoading(true);
     setError("");
+    setSuccess("");
 
     try {
       // Parse CSV
       const rawData = await parseCSV(file);
+
+      if (!rawData || rawData.length === 0) {
+        setError("CSV file is empty or invalid");
+        return;
+      }
 
       // Extract standard candidate fields
       const candidates = extractCandidateFields(rawData);
@@ -26,9 +39,13 @@ export default function FileUpload({ onData }) {
       const scoredCandidates = scoreCandidates(candidates);
 
       setCurrentCandidates(scoredCandidates);
+      setSuccess(`Successfully loaded ${scoredCandidates.length} candidates`);
 
       // Pass data to parent
       onData(scoredCandidates);
+
+      // Reset file input
+      e.target.value = "";
     } catch (err) {
       setError(`Error parsing CSV: ${err.message}`);
       console.error(err);
@@ -38,53 +55,60 @@ export default function FileUpload({ onData }) {
   };
 
   return (
-    <div style={{ marginBottom: 20 }}>
-      <div
-        style={{
-          marginBottom: 10,
-          display: "flex",
-          gap: 10,
-          alignItems: "center",
-          flexWrap: "wrap",
-        }}
-      >
-        <div>
-          <label htmlFor="csv-upload" style={{ fontWeight: "bold" }}>
-            Upload Internshala CSV:
-          </label>
-          <input
-            id="csv-upload"
-            type="file"
-            accept=".csv"
-            onChange={handleFile}
-            disabled={loading}
-            style={{ marginLeft: 10 }}
-          />
-          {loading && (
-            <span style={{ marginLeft: 10, color: "#666" }}>Processing...</span>
-          )}
-        </div>
-        {currentCandidates.length > 0 && (
-          <button
-            onClick={() => exportCandidatesToCSV(currentCandidates)}
-            style={{
-              padding: "8px 16px",
-              backgroundColor: "#4caf50",
-              color: "white",
-              border: "none",
-              borderRadius: "4px",
-              cursor: "pointer",
-              fontWeight: "bold",
-              whiteSpace: "nowrap",
-            }}
-            onMouseOver={(e) => (e.target.style.backgroundColor = "#45a049")}
-            onMouseOut={(e) => (e.target.style.backgroundColor = "#4caf50")}
-          >
-            📥 Export Results
-          </button>
-        )}
+    <div className="upload-container">
+      <div className="upload-input-group">
+        <label htmlFor="csv-upload">📁 Upload CSV:</label>
+        <input
+          id="csv-upload"
+          type="file"
+          accept=".csv"
+          onChange={handleFile}
+          disabled={loading}
+          title="Select a CSV file with candidate data"
+        />
+        {loading && <span>⏳ Processing...</span>}
       </div>
-      {error && <div style={{ color: "red", marginTop: 10 }}>{error}</div>}
+      {currentCandidates.length > 0 && (
+        <button
+          onClick={() => exportCandidatesToCSV(currentCandidates)}
+          className="export-button"
+          title="Download results as CSV for sharing with team"
+        >
+          📥 Export Results
+        </button>
+      )}
+
+      {error && (
+        <div
+          style={{
+            width: "100%",
+            padding: "0.8rem",
+            background: "#ffebee",
+            color: "#c62828",
+            borderRadius: "4px",
+            fontSize: "0.9rem",
+            borderLeft: "4px solid #c62828",
+          }}
+        >
+          ⚠️ {error}
+        </div>
+      )}
+
+      {success && (
+        <div
+          style={{
+            width: "100%",
+            padding: "0.8rem",
+            background: "#e8f5e9",
+            color: "#2e7d32",
+            borderRadius: "4px",
+            fontSize: "0.9rem",
+            borderLeft: "4px solid #2e7d32",
+          }}
+        >
+          ✓ {success}
+        </div>
+      )}
     </div>
   );
 }
