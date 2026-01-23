@@ -137,6 +137,68 @@ export default function CandidateDetailModal({ candidate, onClose }) {
           </div>
         </div>
 
+        {/* Contact & Links */}
+        <div style={{ marginBottom: 20 }}>
+          <h3 style={{ marginTop: 0, marginBottom: 12, color: "#333" }}>
+            Contact & Links
+          </h3>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            {candidate.github && candidate.github !== "invalid" && (
+              <a
+                href={candidate.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                  padding: "10px 14px",
+                  background: "#f0f0f0",
+                  color: "#2196f3",
+                  textDecoration: "none",
+                  borderRadius: 6,
+                  fontWeight: 500,
+                  fontSize: 14,
+                  transition: "background 0.2s",
+                }}
+                onMouseOver={(e) => (e.target.style.background = "#e8e8e8")}
+                onMouseOut={(e) => (e.target.style.background = "#f0f0f0")}
+              >
+                👤 GitHub Profile
+              </a>
+            )}
+            {candidate.resume && (
+              <a
+                href={candidate.resume}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                  padding: "10px 14px",
+                  background: "#fff3e0",
+                  color: "#ff6f00",
+                  textDecoration: "none",
+                  borderRadius: 6,
+                  fontWeight: 500,
+                  fontSize: 14,
+                  transition: "background 0.2s",
+                }}
+                onMouseOver={(e) => (e.target.style.background = "#ffe0b2")}
+                onMouseOut={(e) => (e.target.style.background = "#fff3e0")}
+              >
+                📄 Resume / Portfolio
+              </a>
+            )}
+            {!candidate.resume && !candidate.github && (
+              <div style={{ color: "#999", fontSize: 14 }}>
+                No links provided
+              </div>
+            )}
+          </div>
+        </div>
+
         {/* Basic Info */}
         <div style={{ marginBottom: 20 }}>
           <h3 style={{ marginTop: 0, marginBottom: 12, color: "#333" }}>

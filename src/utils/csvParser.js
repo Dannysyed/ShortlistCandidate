@@ -100,6 +100,15 @@ export function extractCandidateFields(candidates) {
       degree: candidate["Degree"] || candidate["Education"] || "",
       phone: candidate["Phone"] || "",
       email: candidate["Email Address"] || "",
+      resume:
+        candidate["Resume"] ||
+        candidate["Resume Link"] ||
+        candidate["Resume URL"] ||
+        candidate["Portfolio"] ||
+        candidate["Portfolio Link"] ||
+        candidate["Q3. Please share a link to your portfolio / CV."] ||
+        candidate["CV Link"] ||
+        "",
       institute: candidate["Institute"] || "",
       stream: candidate["Stream"] || "",
       gradYear:

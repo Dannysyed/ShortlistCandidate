@@ -128,7 +128,7 @@ export default function CandidateTable({ data }) {
                 <th style={thStyle} onClick={() => handleSort("city")}>
                   City{getSortIndicator("city")}
                 </th>
-                <th style={thStyle}>GitHub</th>
+                <th style={thStyle}>Links</th>
                 <th style={thStyle}>React</th>
                 <th style={thStyle} onClick={() => handleSort("score")}>
                   Score{getSortIndicator("score")}
@@ -163,28 +163,46 @@ export default function CandidateTable({ data }) {
                     {candidate.institute || "—"}
                   </td>
                   <td style={tdStyle}>{candidate.city || "—"}</td>
-                  <td style={tdStyle}>
-                    {candidate.github ? (
-                      <a
-                        href={candidate.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{
-                          color: "#2196f3",
-                          textDecoration: "none",
-                          fontWeight: 500,
-                        }}
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        {candidate.githubStatus === "valid-profile"
-                          ? "👤 Profile"
-                          : candidate.githubStatus === "valid-repo"
-                            ? "📦 Repo"
-                            : "🔗 Link"}
-                      </a>
-                    ) : (
-                      <span style={{ color: "#ccc" }}>—</span>
-                    )}
+                  <td style={{ ...tdStyle, fontSize: 12 }}>
+                    <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                      {candidate.github && (
+                        <a
+                          href={candidate.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            color: "#2196f3",
+                            textDecoration: "none",
+                            fontWeight: 500,
+                            whiteSpace: "nowrap",
+                          }}
+                          onClick={(e) => e.stopPropagation()}
+                          title="GitHub Profile"
+                        >
+                          👤
+                        </a>
+                      )}
+                      {candidate.resume && (
+                        <a
+                          href={candidate.resume}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            color: "#ff6f00",
+                            textDecoration: "none",
+                            fontWeight: 500,
+                            whiteSpace: "nowrap",
+                          }}
+                          onClick={(e) => e.stopPropagation()}
+                          title="Resume / Portfolio"
+                        >
+                          📄
+                        </a>
+                      )}
+                      {!candidate.github && !candidate.resume && (
+                        <span style={{ color: "#ccc" }}>—</span>
+                      )}
+                    </div>
                   </td>
                   <td style={{ ...tdStyle, textAlign: "center" }}>
                     {candidate.skills?.react ? (
