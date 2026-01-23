@@ -1,0 +1,11 @@
+Candidate Name,City,GitHub,Availability,Degree
+John Doe,Bangalore,https://github.com/johndoe/react-project,Immediately,B.Tech CSE
+Jane Smith,Mumbai,github.com/janesmith,Available after exams,B.Tech IT
+Bob Johnson,Bangalore,invalid-github-link,Immediately,M.Tech MCA
+Alice Brown,Delhi,https://github.com/alice,Not immediately,B.Tech CSE
+Charlie Wilson,Bangalore,https://github.com/charlie/awesome-app,Immediately,B.Tech Computer Science
+Diana Prince,Bangalore,https://github.com/diana-profile,Available,B.Tech IT
+Eve Davis,Kolkata,no-github,Immediately,B.Tech ECE
+Frank Miller,Bangalore,https://github.com/frank/react-todo,Immediately,B.Tech CSE
+Grace Lee,Bangalore,https://github.com/grace,Available,M.Tech Computer Engineering
+Henry Zhang,Bangalore,https://github.com/henry/portfolio-react,Immediately,B.Tech IT
