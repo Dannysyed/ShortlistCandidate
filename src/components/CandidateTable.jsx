@@ -163,6 +163,29 @@ export default function CandidateTable({ data }) {
                     {candidate.institute || "—"}
                   </td>
                   <td style={tdStyle}>{candidate.city || "—"}</td>
+                  <td style={tdStyle}>
+                    {candidate.github ? (
+                      <a
+                        href={candidate.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          color: "#2196f3",
+                          textDecoration: "none",
+                          fontWeight: 500,
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        {candidate.githubStatus === "valid-profile"
+                          ? "👤 Profile"
+                          : candidate.githubStatus === "valid-repo"
+                            ? "📦 Repo"
+                            : "🔗 Link"}
+                      </a>
+                    ) : (
+                      <span style={{ color: "#ccc" }}>—</span>
+                    )}
+                  </td>
                   <td style={{ ...tdStyle, textAlign: "center" }}>
                     {candidate.skills?.react ? (
                       <span

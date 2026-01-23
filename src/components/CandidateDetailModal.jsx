@@ -164,7 +164,7 @@ export default function CandidateDetailModal({ candidate, onClose }) {
             <div>
               <div style={{ fontSize: 12, color: "#999" }}>GitHub</div>
               <div style={{ fontWeight: 500 }}>
-                {candidate.github ? (
+                {candidate.github && candidate.githubStatus !== "invalid" ? (
                   <a
                     href={candidate.github}
                     target="_blank"

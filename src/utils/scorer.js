@@ -111,6 +111,7 @@ export function scoreCandidate(candidate) {
 
   return {
     ...candidate,
+    github: githubURL || candidate.github || "",
     score: Math.round(score * 10) / 10,
     maxScore: 25,
     verdict,
