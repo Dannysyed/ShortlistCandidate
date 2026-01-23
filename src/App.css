@@ -14,14 +14,15 @@
 }
 
 .app-header {
-  background: rgba(0, 0, 0, 0.1);
+  border: solid;
+  background-color: #667eea;
   color: white;
   padding: 1.5rem 1rem;
   text-align: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 1000;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
