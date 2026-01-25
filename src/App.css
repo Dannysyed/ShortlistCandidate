@@ -258,6 +258,20 @@
   background: linear-gradient(135deg, #d32f2f, #b71c1c);
 }
 
+.stat-card.selection {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
 .stat-number {
   font-size: 2.5rem;
   font-weight: 700;
