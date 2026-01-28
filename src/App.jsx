@@ -2,6 +2,7 @@ import { useState } from "react";
 import FileUpload from "./components/FileUpload";
 import CandidateTable from "./components/CandidateTable";
 import SearchFilter from "./components/SearchFilter";
+import SelectedCandidatesPage from "./components/SelectedCandidatesPage";
 import "./App.css";
 
 export default function App() {
@@ -9,6 +10,7 @@ export default function App() {
   const [filteredCandidates, setFilteredCandidates] = useState([]);
   const [selectedIds, setSelectedIds] = useState(new Set());
   const [selectedStatus, setSelectedStatus] = useState({});
+  const [viewSelectedPage, setViewSelectedPage] = useState(false);
 
   const handleData = (scoredCandidates) => {
     // Data comes already scored from FileUpload component
@@ -82,6 +84,32 @@ export default function App() {
     customStatus: selectedStatus[c.id] || null,
   }));
 
+  // If viewing selected page, show that instead
+  if (viewSelectedPage) {
+    return (
+      <div className="app-container">
+        <header className="app-header">
+          <h1>🎯 Intern Shortlisting Tool</h1>
+          <p>Selected Candidates Management</p>
+        </header>
+
+        <main className="app-main">
+          <SelectedCandidatesPage
+            candidates={candidates}
+            selectedIds={selectedIds}
+            selectedStatus={selectedStatus}
+            onBack={() => setViewSelectedPage(false)}
+            onStatusChange={handleStatusChange}
+          />
+        </main>
+
+        <footer className="app-footer">
+          <p>📥 Export selected candidates to CSV for further processing</p>
+        </footer>
+      </div>
+    );
+  }
+
   return (
     <div className="app-container">
       <header className="app-header">
@@ -121,7 +149,10 @@ export default function App() {
                   style={{
                     backgroundColor: "#667eea",
                     color: "white",
+                    cursor: "pointer",
                   }}
+                  onClick={() => setViewSelectedPage(true)}
+                  title="Click to view and export selected candidates"
                 >
                   <div className="stat-number">{selectedIds.size}</div>
                   <div className="stat-label">Selected</div>
@@ -213,6 +244,27 @@ export default function App() {
                     ✕ Reject
                   </button>
                   <button
+                    onClick={() => setViewSelectedPage(true)}
+                    style={{
+                      padding: "8px 16px",
+                      backgroundColor: "#ff9800",
+                      color: "white",
+                      border: "none",
+                      borderRadius: 4,
+                      cursor: "pointer",
+                      fontWeight: 500,
+                      transition: "background-color 0.2s",
+                    }}
+                    onMouseOver={(e) =>
+                      (e.target.style.backgroundColor = "#e65100")
+                    }
+                    onMouseOut={(e) =>
+                      (e.target.style.backgroundColor = "#ff9800")
+                    }
+                  >
+                    📥 View & Export
+                  </button>
+                  <button
                     onClick={() => setSelectedIds(new Set())}
                     style={{
                       padding: "8px 16px",
@@ -252,8 +304,8 @@ export default function App() {
 
       <footer className="app-footer">
         <p>
-          💡 Tip: Click checkboxes to manually select candidates, use bulk
-          actions above, or click a row for detailed view.
+          💡 Tip: Select candidates, click the "Selected" card or "📥 View &
+          Export" to manage and export them.
         </p>
       </footer>
     </div>
