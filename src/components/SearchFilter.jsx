@@ -9,6 +9,7 @@ export default function SearchFilter({ candidates, onFilter }) {
     maxScore: 25,
     city: "all",
     availability: "all",
+    graduationYear: "all",
   });
 
   useEffect(() => {
@@ -27,6 +28,9 @@ export default function SearchFilter({ candidates, onFilter }) {
   const availabilities = [
     ...new Set(candidates.map((c) => c.availability).filter(Boolean)),
   ].sort();
+  const graduationYears = [
+    ...new Set(candidates.map((c) => c.gradYear).filter(Boolean)),
+  ].sort((a, b) => parseInt(b) - parseInt(a));
 
   // Apply filters
   const filteredCandidates = candidates.filter((candidate) => {
@@ -48,22 +52,28 @@ export default function SearchFilter({ candidates, onFilter }) {
       filters.availability === "all" ||
       candidate.availability === filters.availability;
 
+    const matchesGraduationYear =
+      filters.graduationYear === "all" ||
+      candidate.gradYear === filters.graduationYear;
+
     return (
       matchesSearch &&
       matchesVerdict &&
       matchesScore &&
       matchesCity &&
-      matchesAvailability
+      matchesAvailability &&
+      matchesGraduationYear
     );
   });
 
   React.useEffect(() => {
     onFilter(filteredCandidates);
-  }, [searchTerm, filters]);
+  }, [filteredCandidates, onFilter]);
 
   const clearFilters = () => {
     setSearchTerm("");
     setFilters({
+      graduationYear: "all",
       verdict: "all",
       minScore: 0,
       maxScore: 25,
@@ -200,6 +210,24 @@ export default function SearchFilter({ candidates, onFilter }) {
                 {availabilities.map((av) => (
                   <option key={av} value={av}>
                     {av}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Graduation Year Filter */}
+            <div className="filter-group">
+              <label>Graduation Year</label>
+              <select
+                value={filters.graduationYear}
+                onChange={(e) =>
+                  setFilters({ ...filters, graduationYear: e.target.value })
+                }
+              >
+                <option value="all">All Years</option>
+                {graduationYears.map((year) => (
+                  <option key={year} value={year}>
+                    {year}
                   </option>
                 ))}
               </select>
